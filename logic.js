@@ -9,28 +9,24 @@ export const start = (t) => {
 	CONFIG.accumulator += t - CONFIG.lastTime;
 	let update = 0;
 	while (CONFIG.accumulator >= CONFIG.dt && update++ <= CONFIG.maxUpdates) {
-		tick();
+		if (CONFIG.tickPass != 0) tick();
 		CONFIG.accumulator -= CONFIG.dt;
 	}
+	if (CONFIG.tickPass == 1) CONFIG.tickPass = 0;
 	CONFIG.lastTime = t;
 	requestAnimationFrame(start)
 }
 
 const tick = () => {
-
-	clear();
-	draw();
-}
-
-const clear = () => {
-	data.ctx.clearRect(0, 0, data.gameCanvas.width, data.gameCanvas.height)
-}
-
-const draw = () => {
+	clear()
 	for (const obj of data.objects) {
 		obj.update();
 		obj.handleBoundCollision();
 		obj.handleCollision();
 		obj.draw();
 	}
+}
+
+const clear = () => {
+	data.ctx.clearRect(0, 0, data.gameCanvas.width, data.gameCanvas.height)
 }

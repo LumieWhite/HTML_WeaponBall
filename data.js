@@ -5,8 +5,12 @@ export const CONFIG = {
 	accumulator: 0,
 	tps: TPS,
 	dt: 1/TPS,
-	maxUpdates: 5
+	maxUpdates: 5,
+
+	tickPass: -1
 }
+
+export let tickPass = false;
 
 export const objects = [];
 

@@ -10,7 +10,22 @@ export const init = () => {
 
 const initGame = () => {
 	data.objects.push(
-		new Ball(new Vec2(150, 100), 30, new Vec2(-15, -4), "blue")
+		new Ball(new Vec2(150, 140), 30, new Vec2(10, -5), "blue"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black"),
+		new Ball(new Vec2(200, 200), 20, new Vec2(-4, -40), "black")
 	)
 	console.log(data.objects);
 }
@@ -21,5 +36,7 @@ const initStyle = () => {
 }
 
 const initController = () => {
-
+	document.addEventListener("keyup", e => {
+		if (e.code == "Space") data.CONFIG.tickPass = 1;
+	})
 }

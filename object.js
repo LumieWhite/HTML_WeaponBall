@@ -1,5 +1,6 @@
-import {Vec2} from "./vector.js"
-import {ctx, CONFIG, gameCanvas} from "./data.js"
+import {Vec2, getDistance, getProj} from "./vector.js";
+import {ctx, CONFIG, gameCanvas, objects} from "./data.js";
+import * as utils from "./utils.js";
 
 export class Object {
 	constructor(position, velocity, color) {
@@ -44,12 +45,41 @@ export class Ball extends Object {
 
 	handleBoundCollision() {
 		const bounds = this.getBounds();
-		if (bounds.left.x <= 0 || bounds.right.x >= gameCanvas.width) this.velocity.x *= -1;
-		if (bounds.top.y <= 0 || bounds.bottom.y >= gameCanvas.height) this.velocity.y *= -1;
+		if (bounds.left.x < 0 || bounds.right.x > gameCanvas.width) {
+			this.position.x = (this.position.x < gameCanvas.width / 2) ? this.radius : gameCanvas.width - this.radius;
+			this.velocity.x *= -1;
+		}
+		if (bounds.top.y < 0 || bounds.bottom.y > gameCanvas.height) {
+			this.position.y = (this.position.y < gameCanvas.height / 2) ? this.radius : gameCanvas.height - this.radius;
+			this.velocity.y *= -1
+		};
 	}
 
 	handleCollision() {
+		for (const object of objects) {
+			if (object == this) continue;
+			const dist = getDistance(this.position, object.position)
+			if (dist < this.radius + object.radius) {
+				const penDepth = this.radius + object.radius - dist + 5;
+				const penVecCollider = this.velocity.flip().rescale(penDepth / 2);
+				const penVecTarget = object.velocity.flip().rescale(penDepth / 2);
 
+				const normal = this.position.subtract(object.position).normalize();
+				const relVel = this.velocity.subtract(object.velocity);
+				const sepVel = relVel.dot(normal);
+				const newSepVel = -sepVel;
+				const sepVelVec = normal.multiply(newSepVel);
+
+				this.position = this.position.add(penVecCollider);
+				object.position = object.position.add(penVecTarget);
+
+				this.velocity = this.velocity.add(sepVelVec);
+				object.velocity = object.velocity.add(sepVelVec.multiply(-1))
+			
+				this.update();
+				object.update();
+			}
+		}
 	}
 }
 
