@@ -1,5 +1,7 @@
 import {CONFIG} from "./data.js"
 import * as data from "./data.js"
+import * as utils from "./utils.js"
+import {Vec2} from "./vector.js"
 
 export const start = (t) => {
 	if (!t) { 
@@ -20,10 +22,9 @@ export const start = (t) => {
 const tick = () => {
 	clear()
 	for (const obj of data.objects) {
-		obj.update();
-		obj.handleBoundCollision();
-		obj.handleCollision();
-		obj.draw();
+		obj.tick();
+		obj.weapon.tick();
+		utils.drawHitbox(obj.weapon.getHitbox());
 	}
 }
 

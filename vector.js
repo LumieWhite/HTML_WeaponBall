@@ -51,6 +51,10 @@ export class Vec2 {
 	dot(vector) {
 		return this.x * vector.x + this.y * vector.y
 	}
+
+	unpack() {
+		return [this.x, this.y];
+	}
 }
 
 export const getDistance = (v1, v2) => Math.sqrt(Math.pow(v2.x - v1.x, 2) + Math.pow(v2.y - v1.y, 2));
